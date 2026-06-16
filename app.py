@@ -28,23 +28,19 @@ st.markdown(
     .orange-text {{ color: {ORANGE}; font-weight: 900; }}
     .orange-rule {{ border-top: 4px solid {ORANGE}; margin: 24px 0; }}
     .workflow-strip {{ border: 2px solid {BLACK}; border-radius: 18px; padding: 18px; background-color: {WHITE}; margin: 18px 0; font-weight: 800; line-height: 1.9; }}
-    .mode-card {{ border: 1.5px solid {BLACK}; border-radius: 16px; padding: 18px; background-color: {WHITE}; margin-bottom: 16px; }}
-    .mode-number {{ color: {ORANGE}; font-size: 0.9rem; font-weight: 950; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 6px; }}
-    .mode-title {{ color: {BLACK}; font-size: 1.25rem; font-weight: 950; margin-bottom: 8px; }}
-    .mode-subhead {{ color: {BLACK}; font-weight: 900; margin-top: 12px; margin-bottom: 4px; }}
-    .mode-text {{ color: {BLACK}; line-height: 1.55; }}
+    .mode-card, .usecase-card, .prompt-card {{ border: 1.5px solid {BLACK}; border-radius: 16px; padding: 18px; background-color: {WHITE}; margin-bottom: 16px; }}
+    .mode-number, .usecase-area, .prompt-category {{ color: {ORANGE}; font-size: 0.9rem; font-weight: 950; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 6px; }}
+    .mode-title, .usecase-title, .prompt-title {{ color: {BLACK}; font-size: 1.25rem; font-weight: 950; margin-bottom: 8px; }}
+    .mode-subhead, .usecase-subhead, .prompt-subhead {{ color: {BLACK}; font-weight: 900; margin-top: 12px; margin-bottom: 4px; }}
+    .mode-text, .usecase-text, .prompt-text {{ color: {BLACK}; line-height: 1.55; }}
     .example-box {{ border-left: 6px solid {ORANGE}; padding-left: 12px; margin-top: 10px; margin-bottom: 10px; }}
-    .usecase-card {{ border: 1.5px solid {BLACK}; border-radius: 16px; padding: 18px; background-color: {WHITE}; margin-bottom: 16px; }}
-    .usecase-area {{ color: {ORANGE}; font-size: 0.9rem; font-weight: 950; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 6px; }}
-    .usecase-title {{ color: {BLACK}; font-size: 1.25rem; font-weight: 950; margin-bottom: 8px; }}
-    .usecase-subhead {{ color: {BLACK}; font-weight: 900; margin-top: 12px; margin-bottom: 4px; }}
-    .usecase-text {{ color: {BLACK}; line-height: 1.55; }}
     .output-pill {{ display: inline-block; border: 1.5px solid {BLACK}; border-radius: 999px; padding: 6px 12px; margin-top: 10px; font-weight: 900; color: {BLACK}; background-color: {WHITE}; }}
     .disclaimer {{ border: 2px solid {ORANGE}; border-radius: 16px; padding: 18px; background-color: {WHITE}; font-weight: 650; }}
     .footer {{ border-top: 2px solid {BLACK}; padding-top: 14px; margin-top: 28px; font-weight: 800; color: {BLACK}; }}
     div[data-testid="stMetric"] {{ border: 1.5px solid {BLACK}; border-radius: 14px; padding: 16px; background-color: {WHITE}; }}
     div[data-testid="stMetricLabel"] p {{ color: {BLACK} !important; font-weight: 850 !important; }}
     div[data-testid="stMetricValue"] {{ color: {ORANGE} !important; font-weight: 950 !important; }}
+    textarea {{ color: {BLACK} !important; background-color: {WHITE} !important; border: 1.5px solid {BLACK} !important; }}
     </style>
     """,
     unsafe_allow_html=True
@@ -73,16 +69,16 @@ use_cases = pd.DataFrame([
 ], columns=["Healthcare Area", "Workflow Stage", "Workflow Problem", "Operational Risk", "Portfolio Output", "Skill Demonstrated"])
 
 prompt_library = pd.DataFrame([
-    ["Brainstorming", "Act as my healthcare operations brainstorming partner and generate realistic no-PHI portfolio project ideas."],
-    ["Skill-Creator", "Act as a healthcare operations skill-builder and create a repeatable workflow risk framework."],
-    ["Writing-Plans", "Act as a healthcare operations project planner and create a 7-day build plan."],
-    ["Executing-Plans", "Act as my project execution assistant and help me build one step at a time."],
-    ["Design Mode", "Act as my portfolio design assistant using white, black, and Tennessee Orange only."],
-    ["Front-End Review", "Act as a portfolio reviewer and check clarity, credibility, accuracy, and recruiter value."],
-    ["Research Mode", "Act as my healthcare career research assistant and identify role keywords and portfolio ideas."],
-    ["Interview Prep", "Act as my interview coach and help me explain this project honestly."],
-    ["LinkedIn Post", "Act as my LinkedIn healthcare operations content assistant and create a recruiter-facing post."]
-], columns=["Prompt Category", "Prompt Starter"])
+    ["Brainstorming", "Generate project ideas and workflow angles", "Act as my healthcare operations brainstorming partner. I am a BSHA candidate with no formal healthcare work experience. Generate realistic zero-cost simulated no-PHI portfolio project ideas focused on patient access, prior authorization, denial prevention, eligibility verification, documentation workflow, revenue cycle, health informatics, quality improvement, and patient experience. For each idea, include the project title, workflow problem, simulated data needed, dashboard output, skills demonstrated, and how to explain it to recruiters.", "Portfolio project idea list", "Do not invent work history, employer examples, clinical authority, or real patient scenarios."],
+    ["Skill-Creator", "Build repeatable frameworks and checklists", "Act as a healthcare operations skill-builder. Create a repeatable framework I can use to analyze where healthcare workflows break before they become denials, delays, staff rework, patient confusion, or revenue cycle risk. Include intake question, workflow stage, failure signal, downstream risk, patient impact, staff impact, revenue impact, prevention action, KPI to monitor, and recruiter-facing skill demonstrated.", "Checklist, audit tool, or workflow framework", "Use simulated examples only and keep scope educational."],
+    ["Writing-Plans", "Plan a portfolio project before building", "Act as a healthcare operations project planner. Create a 7-day build plan for a simulated no-PHI portfolio project called [PROJECT NAME]. Include day-by-day tasks, what to build in Google Sheets, what to write in Google Docs, what to post on LinkedIn, what to add to GitHub, what to say in interviews, and what not to claim.", "Step-by-step project plan", "Do not claim professional implementation or employer results."],
+    ["Executing-Plans", "Build one step at a time", "Act as my healthcare operations project execution assistant. Help me build [PROJECT NAME] one step at a time. Do not give me everything at once. Start with Step 1 only. For each step, tell me exactly where to build it, exactly what to name it, exactly what columns or sections to create, what copy-paste text to use, how this helps my career placement, and what screenshot or proof I should save for my portfolio.", "Actionable build instructions", "Keep the project no-PHI and pause before major build decisions."],
+    ["Design Mode", "Design dashboards, graphics, and portfolio pages", "Act as my healthcare operations portfolio design assistant. Design a premium recruiter-facing layout for [PROJECT NAME]. Use white background #FFFFFF, black typography #000000, Tennessee Orange #FF8200 as the only accent color, premium healthcare consulting style, large whitespace, mobile-first readability, and no blue, teal, bronze, gold, brown-orange, or gray-heavy styling.", "Layout and visual direction", "Protect brand consistency and avoid misleading claims."],
+    ["Front-End Review", "Review finished work before posting", "Act as a healthcare operations portfolio reviewer. Review this project for recruiter visibility, professionalism, clarity, credibility, and accuracy. Check whether it looks entry-level but serious, avoids exaggerating my experience, clearly explains the workflow problem, shows healthcare operations thinking, aligns with my brand, and belongs in LinkedIn Featured.", "Quality review and improvement list", "Remove anything that overstates experience, authority, or results."],
+    ["Research Mode", "Connect projects to job-market language", "Act as my healthcare career research assistant. Research current entry-level remote or hybrid healthcare administration roles related to patient access, prior authorization, revenue cycle, denial prevention, eligibility verification, documentation support, operations coordination, and health informatics support. Find common job titles, skills, keywords, tasks, portfolio project ideas, LinkedIn skills, and what I should not claim without work experience.", "Role keywords and career strategy", "Only use skills I can explain, demonstrate, or honestly describe as learning."],
+    ["Interview Prep", "Explain projects to recruiters honestly", "Act as my healthcare operations interview coach. Help me explain my simulated no-PHI portfolio project to a recruiter honestly. I do not have formal healthcare work experience yet, so help me explain what I built, why I built it, what healthcare operations problem it demonstrates, what skills it shows, and what I am still learning.", "Interview talking points", "Stay honest about student status and no formal work experience."],
+    ["LinkedIn Post", "Turn projects into professional posts", "Act as my LinkedIn healthcare operations content assistant. Turn this project into a professional LinkedIn post that is clear, credible, student-appropriate, and recruiter-facing. Do not exaggerate my experience. Do not use hashtags unless absolutely necessary. End with Created by Kori Pickle.", "LinkedIn post draft", "No fake experience, no inflated claims, and no unnecessary hashtags."]
+], columns=["Prompt Category", "Best Used For", "Copy-Paste Prompt", "Output Expected", "Guardrail"])
 
 project_ideas = pd.DataFrame([
     ["Patient Access Workflow Risk Map", "Patient access failures create downstream delays, denials, and patient confusion."],
@@ -144,21 +140,7 @@ elif page == "AI Job Modes":
     st.markdown("## Why This Page Matters")
     st.markdown("""<div class="section-card">This page turns AI from a generic answer box into a structured workflow support tool. Each mode gives AI a specific job so the output is easier to review, safer to use, and more connected to patient access, prior authorization, documentation readiness, denial prevention, revenue cycle, and career placement preparation.</div>""", unsafe_allow_html=True)
     for index, row in job_modes.iterrows():
-        st.markdown(f"""
-        <div class="mode-card">
-            <div class="mode-number">Mode {index + 1}</div>
-            <div class="mode-title">{row['AI Job Mode']}</div>
-            <div class="mode-subhead">When to use it</div>
-            <div class="mode-text">{row['When To Use It']}</div>
-            <div class="example-box"><div class="mode-subhead">Healthcare operations example</div><div class="mode-text">{row['Healthcare Operations Example']}</div></div>
-            <div class="mode-subhead">Career skill demonstrated</div>
-            <div class="mode-text">{row['Career Skill Demonstrated']}</div>
-            <div class="mode-subhead">Recruiter value</div>
-            <div class="mode-text">{row['Recruiter Value']}</div>
-            <div class="mode-subhead">Guardrail</div>
-            <div class="mode-text">{row['Risk Guardrail']}</div>
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown(f"""<div class="mode-card"><div class="mode-number">Mode {index + 1}</div><div class="mode-title">{row['AI Job Mode']}</div><div class="mode-subhead">When to use it</div><div class="mode-text">{row['When To Use It']}</div><div class="example-box"><div class="mode-subhead">Healthcare operations example</div><div class="mode-text">{row['Healthcare Operations Example']}</div></div><div class="mode-subhead">Career skill demonstrated</div><div class="mode-text">{row['Career Skill Demonstrated']}</div><div class="mode-subhead">Recruiter value</div><div class="mode-text">{row['Recruiter Value']}</div><div class="mode-subhead">Guardrail</div><div class="mode-text">{row['Risk Guardrail']}</div></div>""", unsafe_allow_html=True)
     st.markdown("## Recruiter-Facing Takeaway")
     st.markdown("""<div class="workflow-strip"><span class="orange-text">I do not just ask AI questions.</span> I assign AI a clear healthcare operations role, define the scope, protect privacy, connect the output to real workflow concepts, and review the result before using it as portfolio material.</div>""", unsafe_allow_html=True)
     footer()
@@ -168,30 +150,23 @@ elif page == "Healthcare Use Cases":
     st.markdown("## Why This Page Matters")
     st.markdown("""<div class="section-card">This page connects AI prompting to healthcare operations work areas recruiters recognize. Each use case shows the workflow problem, the operational risk, the portfolio output, and the skill demonstrated using simulated no-PHI examples only.</div>""", unsafe_allow_html=True)
     for index, row in use_cases.iterrows():
-        st.markdown(f"""
-        <div class="usecase-card">
-            <div class="usecase-area">Use Case {index + 1}</div>
-            <div class="usecase-title">{row['Healthcare Area']}</div>
-            <div class="usecase-subhead">Workflow stage</div>
-            <div class="usecase-text">{row['Workflow Stage']}</div>
-            <div class="example-box"><div class="usecase-subhead">Workflow problem</div><div class="usecase-text">{row['Workflow Problem']}</div></div>
-            <div class="usecase-subhead">Operational risk</div>
-            <div class="usecase-text">{row['Operational Risk']}</div>
-            <div class="usecase-subhead">Skill demonstrated</div>
-            <div class="usecase-text">{row['Skill Demonstrated']}</div>
-            <div class="output-pill">Portfolio Output: {row['Portfolio Output']}</div>
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown(f"""<div class="usecase-card"><div class="usecase-area">Use Case {index + 1}</div><div class="usecase-title">{row['Healthcare Area']}</div><div class="usecase-subhead">Workflow stage</div><div class="usecase-text">{row['Workflow Stage']}</div><div class="example-box"><div class="usecase-subhead">Workflow problem</div><div class="usecase-text">{row['Workflow Problem']}</div></div><div class="usecase-subhead">Operational risk</div><div class="usecase-text">{row['Operational Risk']}</div><div class="usecase-subhead">Skill demonstrated</div><div class="usecase-text">{row['Skill Demonstrated']}</div><div class="output-pill">Portfolio Output: {row['Portfolio Output']}</div></div>""", unsafe_allow_html=True)
     st.markdown("## Recruiter-Facing Takeaway")
     st.markdown("""<div class="workflow-strip"><span class="orange-text">These use cases show practical healthcare operations thinking.</span> The focus is not clinical authority. The focus is workflow awareness, risk detection, documentation readiness, denial prevention, patient access, revenue cycle impact, and responsible AI use.</div>""", unsafe_allow_html=True)
     footer()
 
 elif page == "Prompt Library":
-    hero("Prompt Library", "Reusable prompts for responsible healthcare operations portfolio building.")
-    st.dataframe(prompt_library, use_container_width=True, hide_index=True)
+    hero("Prompt Library", "Copy-paste prompts for responsible healthcare operations portfolio building.")
+    st.markdown("## Why This Page Matters")
+    st.markdown("""<div class="section-card">This page gives me reusable prompt templates that support healthcare operations learning, portfolio development, LinkedIn content, recruiter preparation, and responsible AI use. Each prompt includes a purpose, expected output, and guardrail so the work stays realistic, no-PHI, and student-appropriate.</div>""", unsafe_allow_html=True)
+    for index, row in prompt_library.iterrows():
+        st.markdown(f"""<div class="prompt-card"><div class="prompt-category">Prompt {index + 1}</div><div class="prompt-title">{row['Prompt Category']}</div><div class="prompt-subhead">Best used for</div><div class="prompt-text">{row['Best Used For']}</div><div class="prompt-subhead">Output expected</div><div class="prompt-text">{row['Output Expected']}</div><div class="example-box"><div class="prompt-subhead">Guardrail</div><div class="prompt-text">{row['Guardrail']}</div></div></div>""", unsafe_allow_html=True)
+    st.markdown("## Copy-Paste Prompt Selector")
     selected = st.selectbox("Choose a prompt category", prompt_library["Prompt Category"])
-    prompt = prompt_library[prompt_library["Prompt Category"] == selected].iloc[0]["Prompt Starter"]
-    st.code(prompt, language="text")
+    selected_row = prompt_library[prompt_library["Prompt Category"] == selected].iloc[0]
+    st.text_area("Copy-paste prompt", value=selected_row["Copy-Paste Prompt"], height=260)
+    st.markdown("## Recruiter-Facing Takeaway")
+    st.markdown("""<div class="workflow-strip"><span class="orange-text">This prompt library shows repeatable work habits.</span> It proves I can define the task, set scope, protect privacy, request useful outputs, and review AI-supported work before using it in a professional portfolio.</div>""", unsafe_allow_html=True)
     footer()
 
 elif page == "Portfolio Project Ideas":
