@@ -14,70 +14,25 @@ ORANGE = "#FF8200"
 st.markdown(
     f"""
     <style>
-    .stApp {{
-        background-color: {WHITE};
-        color: {BLACK};
-    }}
-    section[data-testid="stSidebar"] {{
-        background-color: {BLACK};
-    }}
-    section[data-testid="stSidebar"] * {{
-        color: {WHITE} !important;
-    }}
-    h1, h2, h3 {{
-        color: {BLACK};
-        letter-spacing: -0.03em;
-    }}
-    .hero {{
-        border: 2px solid {BLACK};
-        border-left: 12px solid {ORANGE};
-        border-radius: 18px;
-        padding: 28px;
-        background-color: {WHITE};
-        margin-bottom: 24px;
-    }}
-    .label {{
-        color: {ORANGE};
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        font-size: 0.85rem;
-        margin-bottom: 8px;
-    }}
-    .card {{
-        border: 1.5px solid {BLACK};
-        border-radius: 16px;
-        padding: 20px;
-        background-color: {WHITE};
-        margin-bottom: 16px;
-    }}
-    .orange-rule {{
-        border-top: 4px solid {ORANGE};
-        margin: 22px 0;
-    }}
-    .disclaimer {{
-        border: 2px solid {ORANGE};
-        border-radius: 16px;
-        padding: 18px;
-        background-color: {WHITE};
-        font-weight: 650;
-    }}
-    .footer {{
-        border-top: 2px solid {BLACK};
-        padding-top: 14px;
-        margin-top: 28px;
-        font-weight: 700;
-    }}
-    div[data-testid="stMetric"] {{
-        border: 1.5px solid {BLACK};
-        border-radius: 14px;
-        padding: 16px;
-        background-color: {WHITE};
-    }}
-    div[data-testid="stMetricValue"] {{
-        color: {ORANGE};
-        font-weight: 900;
-    }}
+    .stApp {{ background-color: {WHITE}; color: {BLACK}; }}
+    section[data-testid="stSidebar"] {{ background-color: {BLACK}; }}
+    section[data-testid="stSidebar"] * {{ color: {WHITE} !important; }}
+    h1, h2, h3 {{ color: {BLACK}; letter-spacing: -0.03em; }}
+    p, li, div, span {{ color: {BLACK}; }}
+    .hero {{ border: 2px solid {BLACK}; border-left: 12px solid {ORANGE}; border-radius: 18px; padding: 30px; background-color: {WHITE}; margin-bottom: 24px; }}
+    .label {{ color: {ORANGE}; font-weight: 900; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.86rem; margin-bottom: 10px; }}
+    .section-card {{ border: 1.5px solid {BLACK}; border-radius: 16px; padding: 20px; background-color: {WHITE}; margin-bottom: 18px; }}
+    .impact-card {{ border: 1.5px solid {BLACK}; border-radius: 16px; padding: 18px; background-color: {WHITE}; min-height: 145px; margin-bottom: 14px; }}
+    .impact-label {{ color: {BLACK}; font-size: 0.95rem; font-weight: 900; margin-bottom: 8px; }}
+    .impact-text {{ color: {BLACK}; font-size: 0.98rem; line-height: 1.55; }}
+    .orange-text {{ color: {ORANGE}; font-weight: 900; }}
+    .orange-rule {{ border-top: 4px solid {ORANGE}; margin: 24px 0; }}
+    .workflow-strip {{ border: 2px solid {BLACK}; border-radius: 18px; padding: 18px; background-color: {WHITE}; margin: 18px 0; font-weight: 800; line-height: 1.9; }}
+    .disclaimer {{ border: 2px solid {ORANGE}; border-radius: 16px; padding: 18px; background-color: {WHITE}; font-weight: 650; }}
+    .footer {{ border-top: 2px solid {BLACK}; padding-top: 14px; margin-top: 28px; font-weight: 800; color: {BLACK}; }}
+    div[data-testid="stMetric"] {{ border: 1.5px solid {BLACK}; border-radius: 14px; padding: 16px; background-color: {WHITE}; }}
+    div[data-testid="stMetricLabel"] p {{ color: {BLACK} !important; font-weight: 850 !important; }}
+    div[data-testid="stMetricValue"] {{ color: {ORANGE} !important; font-weight: 950 !important; }}
     </style>
     """,
     unsafe_allow_html=True
@@ -130,54 +85,53 @@ project_ideas = pd.DataFrame([
 
 st.sidebar.title("Healthcare Operations Intelligence Engine™")
 st.sidebar.caption("Where healthcare workflows break before patients, staff, and revenue feel the impact.")
-page = st.sidebar.radio(
-    "Navigate",
-    [
-        "Home",
-        "AI Job Modes",
-        "Healthcare Use Cases",
-        "Prompt Library",
-        "Portfolio Project Ideas",
-        "Recruiter Talking Points",
-        "LinkedIn Content",
-        "Portfolio Summary",
-        "Disclaimer"
-    ]
-)
+page = st.sidebar.radio("Navigate", ["Home", "AI Job Modes", "Healthcare Use Cases", "Prompt Library", "Portfolio Project Ideas", "Recruiter Talking Points", "LinkedIn Content", "Portfolio Summary", "Disclaimer"])
 
 def hero(title, subtitle):
-    st.markdown(
-        f"""
-        <div class="hero">
-            <div class="label">Healthcare Operations Intelligence Engine™</div>
-            <h1>{title}</h1>
-            <p style="font-size:1.15rem; line-height:1.6; margin-bottom:0;">{subtitle}</p>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+    st.markdown(f"""
+    <div class="hero">
+        <div class="label">Healthcare Operations Intelligence Engine™</div>
+        <h1>{title}</h1>
+        <p style="font-size:1.15rem; line-height:1.6; margin-bottom:0;">{subtitle}</p>
+    </div>
+    """, unsafe_allow_html=True)
 
 def footer():
-    st.markdown(
-        """
-        <div class="footer">
-        Created by Kori Pickle · BSHA Candidate · Simulated no-PHI portfolio project
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+    st.markdown("""<div class="footer">Created by Kori Pickle · BSHA Candidate · Simulated no-PHI portfolio project</div>""", unsafe_allow_html=True)
 
 if page == "Home":
-    hero("Healthcare Operations AI Prompting System™", "A simulated no-PHI portfolio project showing how AI can support healthcare operations thinking when the prompt gives AI a specific job.")
-    col1, col2, col3, col4 = st.columns(4)
-    col1.metric("AI Job Modes", "7")
-    col2.metric("Healthcare Use Cases", "9")
-    col3.metric("Prompt Categories", "9")
-    col4.metric("No-PHI Status", "Protected")
+    hero("Healthcare Operations AI Prompting System™", "A simulated no-PHI portfolio project showing how responsible AI prompting can support healthcare workflow analysis, denial prevention thinking, patient access review, prior authorization awareness, and recruiter-facing career development.")
+
+    col1, col2 = st.columns(2)
+    with col1:
+        st.metric("Healthcare Operations", "Thinking")
+        st.metric("Responsible AI Use", "Guardrailed")
+    with col2:
+        st.metric("Workflow Analysis", "Structured")
+        st.metric("No-PHI Status", "Protected")
+
     st.markdown('<div class="orange-rule"></div>', unsafe_allow_html=True)
-    st.subheader("Project Purpose")
-    st.write("This project demonstrates how a BSHA candidate can use AI responsibly as a structured healthcare operations thinking partner. It translates vague requests into specific job modes that support workflow analysis, patient access review, prior authorization risk detection, documentation readiness, denial prevention thinking, revenue cycle process awareness, and recruiter-facing career development.")
-    st.subheader("Core Question")
+
+    st.markdown("## Why This Project Matters to Recruiters")
+    st.markdown("""<div class="section-card">This project shows how I organize healthcare operations problems before they become downstream risk. It connects responsible AI use to practical healthcare administration skills, including workflow review, patient access awareness, prior authorization readiness, documentation quality, denial prevention, revenue cycle thinking, and professional communication.</div>""", unsafe_allow_html=True)
+
+    st.markdown("## Skills Demonstrated")
+    skill_col1, skill_col2 = st.columns(2)
+    with skill_col1:
+        st.markdown("""<div class="impact-card"><div class="impact-label">Workflow + Revenue Cycle</div><div class="impact-text">Workflow analysis<br>Patient access awareness<br>Prior authorization process awareness<br>Denial prevention thinking</div></div>""", unsafe_allow_html=True)
+    with skill_col2:
+        st.markdown("""<div class="impact-card"><div class="impact-label">AI + Professional Judgment</div><div class="impact-text">Responsible AI prompting<br>No-PHI project design<br>Healthcare AI governance awareness<br>Recruiter-facing communication</div></div>""", unsafe_allow_html=True)
+
+    st.markdown("## Workflow Intelligence Path")
+    st.markdown("""<div class="workflow-strip"><span class="orange-text">Prompt clarity</span> → Workflow question → Risk category → Human review → Prevention action → Portfolio proof</div>""", unsafe_allow_html=True)
+
+    st.markdown("## Project Purpose")
+    st.write("This project demonstrates how a BSHA candidate can use AI responsibly as a structured healthcare operations thinking partner. It translates vague requests into specific job modes that support workflow analysis, patient access review, prior authorization risk detection, documentation readiness, denial prevention thinking, revenue cycle process awareness, and career placement preparation.")
+
+    st.markdown("## Career Relevance")
+    st.write("This app supports entry-level remote or hybrid healthcare administration, patient access, prior authorization support, eligibility verification, revenue cycle support, denial prevention support, documentation coordination, operations support, and health informatics support positioning.")
+
+    st.markdown("## Core Question")
     st.write("How can AI be used responsibly to help identify where healthcare workflows break before patients, staff, and revenue feel the impact?")
     footer()
 
@@ -251,11 +205,7 @@ elif page == "Portfolio Summary":
 
 elif page == "Disclaimer":
     hero("Disclaimer", "Privacy, scope, and responsible-use guardrails for this simulated project.")
-    st.markdown("""
-    <div class="disclaimer">
-    This project uses simulated educational examples only. It does not include real patient data, PHI, payer data, employer data, claims data, or clinical decision-making. It is intended for healthcare operations learning, portfolio development, and career placement preparation.
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown("""<div class="disclaimer">This project uses simulated educational examples only. It does not include real patient data, PHI, payer data, employer data, claims data, or clinical decision-making. It is intended for healthcare operations learning, portfolio development, and career placement preparation.</div>""", unsafe_allow_html=True)
     st.subheader("What This Project Does Not Claim")
     st.write("It does not claim formal healthcare work experience, clinical authority, billing authority, coding authority, reimbursement authority, legal authority, or patient-care decision-making.")
     footer()
