@@ -33,6 +33,7 @@ st.markdown(
     .mode-title {{ color: {BLACK}; font-size: 1.25rem; font-weight: 950; margin-bottom: 8px; }}
     .mode-subhead {{ color: {BLACK}; font-weight: 900; margin-top: 12px; margin-bottom: 4px; }}
     .mode-text {{ color: {BLACK}; line-height: 1.55; }}
+    .example-box {{ border-left: 6px solid {ORANGE}; padding-left: 12px; margin-top: 10px; margin-bottom: 10px; }}
     .disclaimer {{ border: 2px solid {ORANGE}; border-radius: 16px; padding: 18px; background-color: {WHITE}; font-weight: 650; }}
     .footer {{ border-top: 2px solid {BLACK}; padding-top: 14px; margin-top: 28px; font-weight: 800; color: {BLACK}; }}
     div[data-testid="stMetric"] {{ border: 1.5px solid {BLACK}; border-radius: 14px; padding: 16px; background-color: {WHITE}; }}
@@ -44,14 +45,14 @@ st.markdown(
 )
 
 job_modes = pd.DataFrame([
-    ["Brainstorming Mode", "Generate project ideas, LinkedIn post ideas, workflow angles, and improvement opportunities.", "Workflow ideation", "Do not claim real employer experience or use real patient examples."],
-    ["Skill-Creator Mode", "Build a repeatable framework, checklist, audit tool, or workflow review system.", "Process design", "Use simulated examples only."],
-    ["Writing-Plans Mode", "Plan a project, dashboard, case study, or LinkedIn content series.", "Project planning", "Do not overstate authority or claim professional implementation."],
-    ["Executing-Plans Mode", "Build one step at a time inside Google Sheets, GitHub, Streamlit, or LinkedIn.", "Implementation discipline", "Keep the project educational and no-PHI."],
-    ["Design Mode", "Create dashboard layouts, LinkedIn graphics, case study pages, or portfolio visuals.", "Professional presentation", "No misleading clinical, billing, or employer claims."],
-    ["Front-End Review Mode", "Review a project for clarity, credibility, recruiter value, and professionalism.", "Quality review", "Protect accuracy and avoid exaggeration."],
-    ["Research Mode", "Review job descriptions, role requirements, current keywords, or placement strategy.", "Career alignment", "Do not claim skills that cannot be explained or demonstrated."]
-], columns=["AI Job Mode", "When To Use It", "Career Skill Demonstrated", "Risk Guardrail"])
+    ["Brainstorming Mode", "Generate project ideas, LinkedIn post ideas, workflow angles, and improvement opportunities.", "Generate 10 patient access failure points that could create denial risk, staff rework, or patient confusion.", "Workflow ideation", "Shows I can turn healthcare operations problems into structured portfolio ideas.", "Do not claim real employer experience or use real patient examples."],
+    ["Skill-Creator Mode", "Build a repeatable framework, checklist, audit tool, or workflow review system.", "Create a front-end denial prevention checklist for registration, eligibility, authorization, and documentation readiness.", "Process design", "Shows I can create reusable healthcare operations tools, not just discuss concepts.", "Use simulated examples only."],
+    ["Writing-Plans Mode", "Plan a project, dashboard, case study, or LinkedIn content series.", "Create a 7-day plan for building a simulated prior authorization failure dashboard and recruiter-facing case study.", "Project planning", "Shows I can organize work into phases, milestones, deliverables, risks, and next actions.", "Do not overstate authority or claim professional implementation."],
+    ["Executing-Plans Mode", "Build one step at a time inside Google Sheets, GitHub, Streamlit, or LinkedIn.", "Walk through creating a no-PHI Google Sheets audit tool, then turn it into a GitHub README and Streamlit app.", "Implementation discipline", "Shows I can move from idea to finished portfolio asset with clear steps.", "Keep the project educational and no-PHI."],
+    ["Design Mode", "Create dashboard layouts, LinkedIn graphics, case study pages, or portfolio visuals.", "Design a clean patient access risk dashboard using white, black, and Tennessee Orange only.", "Professional presentation", "Shows I can communicate workflow findings in a recruiter-facing visual format.", "No misleading clinical, billing, or employer claims."],
+    ["Front-End Review Mode", "Review a project for clarity, credibility, recruiter value, and professionalism.", "Check whether a portfolio dashboard is honest, readable, no-PHI, and aligned with entry-level healthcare operations roles.", "Quality review", "Shows I can evaluate my own work for accuracy, scope, professionalism, and credibility.", "Protect accuracy and avoid exaggeration."],
+    ["Research Mode", "Review job descriptions, role requirements, current keywords, or placement strategy.", "Compare entry-level patient access, prior authorization, revenue cycle, and health informatics support job postings for common skills.", "Career alignment", "Shows I can connect portfolio projects to actual role requirements and recruiter keywords.", "Do not claim skills that cannot be explained or demonstrated."]
+], columns=["AI Job Mode", "When To Use It", "Healthcare Operations Example", "Career Skill Demonstrated", "Recruiter Value", "Risk Guardrail"])
 
 use_cases = pd.DataFrame([
     ["Patient Access", "Appointment reason is unclear before the visit.", "Patient Access Workflow Risk Map"],
@@ -143,14 +144,20 @@ elif page == "AI Job Modes":
             <div class="mode-title">{row['AI Job Mode']}</div>
             <div class="mode-subhead">When to use it</div>
             <div class="mode-text">{row['When To Use It']}</div>
+            <div class="example-box">
+                <div class="mode-subhead">Healthcare operations example</div>
+                <div class="mode-text">{row['Healthcare Operations Example']}</div>
+            </div>
             <div class="mode-subhead">Career skill demonstrated</div>
             <div class="mode-text">{row['Career Skill Demonstrated']}</div>
+            <div class="mode-subhead">Recruiter value</div>
+            <div class="mode-text">{row['Recruiter Value']}</div>
             <div class="mode-subhead">Guardrail</div>
             <div class="mode-text">{row['Risk Guardrail']}</div>
         </div>
         """, unsafe_allow_html=True)
     st.markdown("## Recruiter-Facing Takeaway")
-    st.markdown("""<div class="workflow-strip"><span class="orange-text">I do not just ask AI questions.</span> I assign AI a clear healthcare operations role, define the scope, protect privacy, and review the output before using it as portfolio material.</div>""", unsafe_allow_html=True)
+    st.markdown("""<div class="workflow-strip"><span class="orange-text">I do not just ask AI questions.</span> I assign AI a clear healthcare operations role, define the scope, protect privacy, connect the output to real workflow concepts, and review the result before using it as portfolio material.</div>""", unsafe_allow_html=True)
     footer()
 
 elif page == "Healthcare Use Cases":
