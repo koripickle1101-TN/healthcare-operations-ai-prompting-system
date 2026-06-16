@@ -34,6 +34,12 @@ st.markdown(
     .mode-subhead {{ color: {BLACK}; font-weight: 900; margin-top: 12px; margin-bottom: 4px; }}
     .mode-text {{ color: {BLACK}; line-height: 1.55; }}
     .example-box {{ border-left: 6px solid {ORANGE}; padding-left: 12px; margin-top: 10px; margin-bottom: 10px; }}
+    .usecase-card {{ border: 1.5px solid {BLACK}; border-radius: 16px; padding: 18px; background-color: {WHITE}; margin-bottom: 16px; }}
+    .usecase-area {{ color: {ORANGE}; font-size: 0.9rem; font-weight: 950; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 6px; }}
+    .usecase-title {{ color: {BLACK}; font-size: 1.25rem; font-weight: 950; margin-bottom: 8px; }}
+    .usecase-subhead {{ color: {BLACK}; font-weight: 900; margin-top: 12px; margin-bottom: 4px; }}
+    .usecase-text {{ color: {BLACK}; line-height: 1.55; }}
+    .output-pill {{ display: inline-block; border: 1.5px solid {BLACK}; border-radius: 999px; padding: 6px 12px; margin-top: 10px; font-weight: 900; color: {BLACK}; background-color: {WHITE}; }}
     .disclaimer {{ border: 2px solid {ORANGE}; border-radius: 16px; padding: 18px; background-color: {WHITE}; font-weight: 650; }}
     .footer {{ border-top: 2px solid {BLACK}; padding-top: 14px; margin-top: 28px; font-weight: 800; color: {BLACK}; }}
     div[data-testid="stMetric"] {{ border: 1.5px solid {BLACK}; border-radius: 14px; padding: 16px; background-color: {WHITE}; }}
@@ -55,16 +61,16 @@ job_modes = pd.DataFrame([
 ], columns=["AI Job Mode", "When To Use It", "Healthcare Operations Example", "Career Skill Demonstrated", "Recruiter Value", "Risk Guardrail"])
 
 use_cases = pd.DataFrame([
-    ["Patient Access", "Appointment reason is unclear before the visit.", "Patient Access Workflow Risk Map"],
-    ["Eligibility Verification", "Insurance information is outdated, incomplete, or not verified before service.", "Eligibility Failure Risk Tracker"],
-    ["Prior Authorization", "Authorization is missing, pending, or submitted too late.", "Prior Authorization Failure Intelligence System"],
-    ["Documentation Readiness", "Documentation does not support the service, authorization, or claim.", "Documentation Integrity Audit"],
-    ["Denial Prevention", "Denials appear downstream but often begin upstream.", "Denial Prevention Workflow Map"],
-    ["Staff Rework", "Staff spend time correcting issues that should have been prevented earlier.", "Staff Rework Burden Dashboard"],
-    ["Patient Experience", "Patients experience delays, confusion, repeated calls, or unclear next steps.", "Patient Journey Operations Profile"],
-    ["Revenue Cycle", "Claims are delayed, denied, corrected, appealed, or reworked.", "Revenue Cycle Risk Dashboard"],
-    ["AI Governance", "AI outputs may be inaccurate, incomplete, biased, or outside scope.", "Healthcare AI Governance Checklist"]
-], columns=["Healthcare Area", "Workflow Problem", "Portfolio Output"])
+    ["Patient Access", "Front-end intake", "Appointment reason is unclear before the visit.", "The wrong workflow path may begin before the patient is seen.", "Patient Access Workflow Risk Map", "Patient access workflow thinking"],
+    ["Eligibility Verification", "Coverage validation", "Insurance information is outdated, incomplete, or not verified before service.", "Eligibility errors can create claim denials, patient confusion, and rework.", "Eligibility Failure Risk Tracker", "Revenue cycle awareness"],
+    ["Prior Authorization", "Authorization readiness", "Authorization is missing, pending, or submitted too late.", "Late or missing authorization can create delays, retro-auth risk, and denial exposure.", "Prior Authorization Failure Intelligence System", "Prior authorization workflow analysis"],
+    ["Documentation Readiness", "Clinical/admin documentation support", "Documentation does not support the service, authorization, or claim.", "Incomplete documentation can delay authorization, claims, appeals, and handoffs.", "Documentation Integrity Audit", "Documentation workflow awareness"],
+    ["Denial Prevention", "Upstream risk detection", "Denials appear downstream but often begin upstream.", "The claim may fail because intake, eligibility, authorization, or documentation lost control earlier.", "Denial Prevention Workflow Map", "Root-cause thinking"],
+    ["Staff Rework", "Operational burden", "Staff spend time correcting issues that should have been prevented earlier.", "Rework increases backlog, call volume, handoff friction, and staff workload.", "Staff Rework Burden Dashboard", "Operational risk analysis"],
+    ["Patient Experience", "Patient journey friction", "Patients experience delays, confusion, repeated calls, or unclear next steps.", "The patient feels workflow breakdowns before the dashboard shows them.", "Patient Journey Operations Profile", "Patient-centered operations"],
+    ["Revenue Cycle", "Financial workflow impact", "Claims are delayed, denied, corrected, appealed, or reworked.", "Upstream process issues can affect clean claim rate, A/R, cash flow, and avoidable corrections.", "Revenue Cycle Risk Dashboard", "Revenue cycle process understanding"],
+    ["AI Governance", "Responsible AI use", "AI outputs may be inaccurate, incomplete, biased, or outside scope.", "Human review, privacy protection, and no-PHI boundaries must stay visible.", "Healthcare AI Governance Checklist", "Responsible AI awareness"]
+], columns=["Healthcare Area", "Workflow Stage", "Workflow Problem", "Operational Risk", "Portfolio Output", "Skill Demonstrated"])
 
 prompt_library = pd.DataFrame([
     ["Brainstorming", "Act as my healthcare operations brainstorming partner and generate realistic no-PHI portfolio project ideas."],
@@ -144,10 +150,7 @@ elif page == "AI Job Modes":
             <div class="mode-title">{row['AI Job Mode']}</div>
             <div class="mode-subhead">When to use it</div>
             <div class="mode-text">{row['When To Use It']}</div>
-            <div class="example-box">
-                <div class="mode-subhead">Healthcare operations example</div>
-                <div class="mode-text">{row['Healthcare Operations Example']}</div>
-            </div>
+            <div class="example-box"><div class="mode-subhead">Healthcare operations example</div><div class="mode-text">{row['Healthcare Operations Example']}</div></div>
             <div class="mode-subhead">Career skill demonstrated</div>
             <div class="mode-text">{row['Career Skill Demonstrated']}</div>
             <div class="mode-subhead">Recruiter value</div>
@@ -161,8 +164,26 @@ elif page == "AI Job Modes":
     footer()
 
 elif page == "Healthcare Use Cases":
-    hero("Healthcare Use Cases", "Each AI job mode connects to a healthcare operations learning area using simulated examples only.")
-    st.dataframe(use_cases, use_container_width=True, hide_index=True)
+    hero("Healthcare Use Cases", "How responsible AI prompting supports simulated healthcare operations workflow analysis.")
+    st.markdown("## Why This Page Matters")
+    st.markdown("""<div class="section-card">This page connects AI prompting to healthcare operations work areas recruiters recognize. Each use case shows the workflow problem, the operational risk, the portfolio output, and the skill demonstrated using simulated no-PHI examples only.</div>""", unsafe_allow_html=True)
+    for index, row in use_cases.iterrows():
+        st.markdown(f"""
+        <div class="usecase-card">
+            <div class="usecase-area">Use Case {index + 1}</div>
+            <div class="usecase-title">{row['Healthcare Area']}</div>
+            <div class="usecase-subhead">Workflow stage</div>
+            <div class="usecase-text">{row['Workflow Stage']}</div>
+            <div class="example-box"><div class="usecase-subhead">Workflow problem</div><div class="usecase-text">{row['Workflow Problem']}</div></div>
+            <div class="usecase-subhead">Operational risk</div>
+            <div class="usecase-text">{row['Operational Risk']}</div>
+            <div class="usecase-subhead">Skill demonstrated</div>
+            <div class="usecase-text">{row['Skill Demonstrated']}</div>
+            <div class="output-pill">Portfolio Output: {row['Portfolio Output']}</div>
+        </div>
+        """, unsafe_allow_html=True)
+    st.markdown("## Recruiter-Facing Takeaway")
+    st.markdown("""<div class="workflow-strip"><span class="orange-text">These use cases show practical healthcare operations thinking.</span> The focus is not clinical authority. The focus is workflow awareness, risk detection, documentation readiness, denial prevention, patient access, revenue cycle impact, and responsible AI use.</div>""", unsafe_allow_html=True)
     footer()
 
 elif page == "Prompt Library":
