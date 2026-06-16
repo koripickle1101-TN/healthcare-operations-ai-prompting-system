@@ -28,6 +28,11 @@ st.markdown(
     .orange-text {{ color: {ORANGE}; font-weight: 900; }}
     .orange-rule {{ border-top: 4px solid {ORANGE}; margin: 24px 0; }}
     .workflow-strip {{ border: 2px solid {BLACK}; border-radius: 18px; padding: 18px; background-color: {WHITE}; margin: 18px 0; font-weight: 800; line-height: 1.9; }}
+    .mode-card {{ border: 1.5px solid {BLACK}; border-radius: 16px; padding: 18px; background-color: {WHITE}; margin-bottom: 16px; }}
+    .mode-number {{ color: {ORANGE}; font-size: 0.9rem; font-weight: 950; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 6px; }}
+    .mode-title {{ color: {BLACK}; font-size: 1.25rem; font-weight: 950; margin-bottom: 8px; }}
+    .mode-subhead {{ color: {BLACK}; font-weight: 900; margin-top: 12px; margin-bottom: 4px; }}
+    .mode-text {{ color: {BLACK}; line-height: 1.55; }}
     .disclaimer {{ border: 2px solid {ORANGE}; border-radius: 16px; padding: 18px; background-color: {WHITE}; font-weight: 650; }}
     .footer {{ border-top: 2px solid {BLACK}; padding-top: 14px; margin-top: 28px; font-weight: 800; color: {BLACK}; }}
     div[data-testid="stMetric"] {{ border: 1.5px solid {BLACK}; border-radius: 14px; padding: 16px; background-color: {WHITE}; }}
@@ -101,7 +106,6 @@ def footer():
 
 if page == "Home":
     hero("Healthcare Operations AI Prompting System™", "A simulated no-PHI portfolio project showing how responsible AI prompting can support healthcare workflow analysis, denial prevention thinking, patient access review, prior authorization awareness, and recruiter-facing career development.")
-
     col1, col2 = st.columns(2)
     with col1:
         st.metric("Healthcare Operations", "Thinking")
@@ -109,35 +113,44 @@ if page == "Home":
     with col2:
         st.metric("Workflow Analysis", "Structured")
         st.metric("No-PHI Status", "Protected")
-
     st.markdown('<div class="orange-rule"></div>', unsafe_allow_html=True)
-
     st.markdown("## Why This Project Matters to Recruiters")
     st.markdown("""<div class="section-card">This project shows how I organize healthcare operations problems before they become downstream risk. It connects responsible AI use to practical healthcare administration skills, including workflow review, patient access awareness, prior authorization readiness, documentation quality, denial prevention, revenue cycle thinking, and professional communication.</div>""", unsafe_allow_html=True)
-
     st.markdown("## Skills Demonstrated")
     skill_col1, skill_col2 = st.columns(2)
     with skill_col1:
         st.markdown("""<div class="impact-card"><div class="impact-label">Workflow + Revenue Cycle</div><div class="impact-text">Workflow analysis<br>Patient access awareness<br>Prior authorization process awareness<br>Denial prevention thinking</div></div>""", unsafe_allow_html=True)
     with skill_col2:
         st.markdown("""<div class="impact-card"><div class="impact-label">AI + Professional Judgment</div><div class="impact-text">Responsible AI prompting<br>No-PHI project design<br>Healthcare AI governance awareness<br>Recruiter-facing communication</div></div>""", unsafe_allow_html=True)
-
     st.markdown("## Workflow Intelligence Path")
     st.markdown("""<div class="workflow-strip"><span class="orange-text">Prompt clarity</span> → Workflow question → Risk category → Human review → Prevention action → Portfolio proof</div>""", unsafe_allow_html=True)
-
     st.markdown("## Project Purpose")
     st.write("This project demonstrates how a BSHA candidate can use AI responsibly as a structured healthcare operations thinking partner. It translates vague requests into specific job modes that support workflow analysis, patient access review, prior authorization risk detection, documentation readiness, denial prevention thinking, revenue cycle process awareness, and career placement preparation.")
-
     st.markdown("## Career Relevance")
     st.write("This app supports entry-level remote or hybrid healthcare administration, patient access, prior authorization support, eligibility verification, revenue cycle support, denial prevention support, documentation coordination, operations support, and health informatics support positioning.")
-
     st.markdown("## Core Question")
     st.write("How can AI be used responsibly to help identify where healthcare workflows break before patients, staff, and revenue feel the impact?")
     footer()
 
 elif page == "AI Job Modes":
-    hero("AI Job Modes", "Specific AI roles turn vague requests into useful healthcare operations outputs.")
-    st.dataframe(job_modes, use_container_width=True, hide_index=True)
+    hero("AI Job Modes", "Use the right AI role for the healthcare operations task in front of you.")
+    st.markdown("## Why This Page Matters")
+    st.markdown("""<div class="section-card">This page turns AI from a generic answer box into a structured workflow support tool. Each mode gives AI a specific job so the output is easier to review, safer to use, and more connected to patient access, prior authorization, documentation readiness, denial prevention, revenue cycle, and career placement preparation.</div>""", unsafe_allow_html=True)
+    for index, row in job_modes.iterrows():
+        st.markdown(f"""
+        <div class="mode-card">
+            <div class="mode-number">Mode {index + 1}</div>
+            <div class="mode-title">{row['AI Job Mode']}</div>
+            <div class="mode-subhead">When to use it</div>
+            <div class="mode-text">{row['When To Use It']}</div>
+            <div class="mode-subhead">Career skill demonstrated</div>
+            <div class="mode-text">{row['Career Skill Demonstrated']}</div>
+            <div class="mode-subhead">Guardrail</div>
+            <div class="mode-text">{row['Risk Guardrail']}</div>
+        </div>
+        """, unsafe_allow_html=True)
+    st.markdown("## Recruiter-Facing Takeaway")
+    st.markdown("""<div class="workflow-strip"><span class="orange-text">I do not just ask AI questions.</span> I assign AI a clear healthcare operations role, define the scope, protect privacy, and review the output before using it as portfolio material.</div>""", unsafe_allow_html=True)
     footer()
 
 elif page == "Healthcare Use Cases":
