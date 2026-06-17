@@ -21,18 +21,18 @@ st.markdown(
     p, li, div, span {{ color: {BLACK}; }}
     .hero {{ border: 2px solid {BLACK}; border-left: 12px solid {ORANGE}; border-radius: 18px; padding: 30px; background-color: {WHITE}; margin-bottom: 24px; }}
     .label {{ color: {ORANGE}; font-weight: 900; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.86rem; margin-bottom: 10px; }}
-    .section-card {{ border: 1.5px solid {BLACK}; border-radius: 16px; padding: 20px; background-color: {WHITE}; margin-bottom: 18px; }}
+    .section-card {{ border: 1.5px solid {BLACK}; border-radius: 16px; padding: 20px; background-color: {WHITE}; margin-bottom: 18px; line-height: 1.65; }}
     .impact-card {{ border: 1.5px solid {BLACK}; border-radius: 16px; padding: 18px; background-color: {WHITE}; min-height: 145px; margin-bottom: 14px; }}
     .impact-label {{ color: {BLACK}; font-size: 0.95rem; font-weight: 900; margin-bottom: 8px; }}
     .impact-text {{ color: {BLACK}; font-size: 0.98rem; line-height: 1.55; }}
     .orange-text {{ color: {ORANGE}; font-weight: 900; }}
     .orange-rule {{ border-top: 4px solid {ORANGE}; margin: 24px 0; }}
     .workflow-strip {{ border: 2px solid {BLACK}; border-radius: 18px; padding: 18px; background-color: {WHITE}; margin: 18px 0; font-weight: 800; line-height: 1.9; }}
-    .mode-card, .usecase-card, .prompt-card {{ border: 1.5px solid {BLACK}; border-radius: 16px; padding: 18px; background-color: {WHITE}; margin-bottom: 16px; }}
-    .mode-number, .usecase-area, .prompt-category {{ color: {ORANGE}; font-size: 0.9rem; font-weight: 950; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 6px; }}
-    .mode-title, .usecase-title, .prompt-title {{ color: {BLACK}; font-size: 1.25rem; font-weight: 950; margin-bottom: 8px; }}
-    .mode-subhead, .usecase-subhead, .prompt-subhead {{ color: {BLACK}; font-weight: 900; margin-top: 12px; margin-bottom: 4px; }}
-    .mode-text, .usecase-text, .prompt-text {{ color: {BLACK}; line-height: 1.55; }}
+    .mode-card, .usecase-card, .prompt-card, .route-card, .framework-card {{ border: 1.5px solid {BLACK}; border-radius: 16px; padding: 18px; background-color: {WHITE}; margin-bottom: 16px; }}
+    .mode-number, .usecase-area, .prompt-category, .route-letter, .framework-number {{ color: {ORANGE}; font-size: 0.9rem; font-weight: 950; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 6px; }}
+    .mode-title, .usecase-title, .prompt-title, .route-title, .framework-title {{ color: {BLACK}; font-size: 1.25rem; font-weight: 950; margin-bottom: 8px; }}
+    .mode-subhead, .usecase-subhead, .prompt-subhead, .route-subhead, .framework-subhead {{ color: {BLACK}; font-weight: 900; margin-top: 12px; margin-bottom: 4px; }}
+    .mode-text, .usecase-text, .prompt-text, .route-text, .framework-text {{ color: {BLACK}; line-height: 1.55; }}
     .example-box {{ border-left: 6px solid {ORANGE}; padding-left: 12px; margin-top: 10px; margin-bottom: 10px; }}
     .output-pill {{ display: inline-block; border: 1.5px solid {BLACK}; border-radius: 999px; padding: 6px 12px; margin-top: 10px; font-weight: 900; color: {BLACK}; background-color: {WHITE}; }}
     .disclaimer {{ border: 2px solid {ORANGE}; border-radius: 16px; padding: 18px; background-color: {WHITE}; font-weight: 650; }}
@@ -80,6 +80,25 @@ prompt_library = pd.DataFrame([
     ["LinkedIn Post", "Turn projects into professional posts", "Act as my LinkedIn healthcare operations content assistant. Turn this project into a professional LinkedIn post that is clear, credible, student-appropriate, and recruiter-facing. Do not exaggerate my experience. Do not use hashtags unless absolutely necessary. End with Created by Kori Pickle.", "LinkedIn post draft", "No fake experience, no inflated claims, and no unnecessary hashtags."]
 ], columns=["Prompt Category", "Best Used For", "Copy-Paste Prompt", "Output Expected", "Guardrail"])
 
+route_framework = pd.DataFrame([
+    ["R", "Role", "Tell AI what job it is doing.", "Act as a healthcare operations workflow analyst.", "Prevents generic answers by assigning a clear operating role."],
+    ["O", "Objective", "Tell AI what problem you are solving.", "Identify where the prior authorization workflow lost control.", "Connects the prompt to a specific workflow problem and outcome."],
+    ["U", "Use Case", "Name the healthcare area.", "Focus on patient access, eligibility, prior authorization, documentation readiness, denial prevention, revenue cycle, or patient experience.", "Keeps the output aligned with recognizable healthcare operations work."],
+    ["T", "Trust Boundary", "Set privacy, scope, and honesty rules.", "Use simulated no-PHI examples only. Do not claim employer experience or clinical authority.", "Protects credibility, privacy, and professional scope."],
+    ["E", "Expected Output", "Tell AI what to produce.", "Create a dashboard table, audit checklist, case study, recruiter talking points, LinkedIn post, or GitHub README.", "Turns the prompt into portfolio proof instead of a one-off answer."]
+], columns=["Letter", "Framework Step", "Meaning", "Example", "Career Value"])
+
+supporting_frameworks = pd.DataFrame([
+    ["CLARITY", "Give AI a full job definition.", "Context → Look & Feel → Ask → Rules → Input → Target → Your role", "Use when building LinkedIn posts, dashboards, case studies, or recruiter explanations."],
+    ["SOCRATES", "Think through a problem carefully.", "Situation → Objective → Constraints → Role → Action → Thinking → Evaluation → Summary", "Use when analyzing a workflow breakdown or denial prevention problem."],
+    ["ANTICIPATE", "Plan ahead before a problem happens.", "Audience → Need → Task → Information → Constraints → Illustrate → Plan → Act → Test → Enhance", "Use when building prevention-focused tools like registration audits or authorization readiness checklists."],
+    ["PARTNER", "Treat AI like a structured project partner.", "Purpose → Audience → Research → Think → Narrow → Execute → Review", "Use when building Streamlit apps, Google Sheets dashboards, GitHub READMEs, or portfolio posts."],
+    ["TRUST", "Ask AI to explain, structure, and tailor the output.", "Task → Reason → Understand → Structure → Tailor", "Use when explaining healthcare operations concepts in a recruiter-facing way."],
+    ["RIPPLE", "Map downstream effects from an upstream issue.", "Role → Input → Process → Points → Layout → Evaluate", "Use when asking where the workflow first lost control."],
+    ["CATCH", "Quality-check before publishing.", "Context → Aim → Tone → Criteria → Help", "Use before posting on LinkedIn or adding a project to your portfolio."],
+    ["MAGIC", "Create content with a clear purpose.", "Motivation → Audience → Goal → Input → Create", "Use for LinkedIn posts, infographics, and project summaries."]
+], columns=["Framework", "Plain-English Meaning", "Structure", "Healthcare Career Use"])
+
 project_ideas = pd.DataFrame([
     ["Patient Access Workflow Risk Map", "Patient access failures create downstream delays, denials, and patient confusion."],
     ["Prior Authorization Failure Intelligence System", "Authorization failures create retro authorization risk, denial risk, staff rework, and patient access delays."],
@@ -93,7 +112,7 @@ project_ideas = pd.DataFrame([
 
 st.sidebar.title("Healthcare Operations Intelligence Engine™")
 st.sidebar.caption("Where healthcare workflows break before patients, staff, and revenue feel the impact.")
-page = st.sidebar.radio("Navigate", ["Home", "AI Job Modes", "Healthcare Use Cases", "Prompt Library", "Portfolio Project Ideas", "Recruiter Talking Points", "LinkedIn Content", "Portfolio Summary", "Disclaimer"])
+page = st.sidebar.radio("Navigate", ["Home", "AI Job Modes", "Healthcare Use Cases", "Prompt Library", "Responsible Prompting Framework", "Portfolio Project Ideas", "Recruiter Talking Points", "LinkedIn Content", "Portfolio Summary", "Disclaimer"])
 
 def hero(title, subtitle):
     st.markdown(f"""
@@ -167,6 +186,60 @@ elif page == "Prompt Library":
     st.text_area("Copy-paste prompt", value=selected_row["Copy-Paste Prompt"], height=260)
     st.markdown("## Recruiter-Facing Takeaway")
     st.markdown("""<div class="workflow-strip"><span class="orange-text">This prompt library shows repeatable work habits.</span> It proves I can define the task, set scope, protect privacy, request useful outputs, and review AI-supported work before using it in a professional portfolio.</div>""", unsafe_allow_html=True)
+    footer()
+
+elif page == "Responsible Prompting Framework":
+    hero("Responsible Prompting Framework", "A healthcare operations framework for turning vague AI requests into structured, no-PHI portfolio outputs.")
+    st.markdown("## Core Insight")
+    st.markdown("""<div class="section-card"><span class="orange-text">AI gives better results when the job is clearly defined.</span> Healthcare workflows also perform better when roles, handoffs, verification points, documentation expectations, and escalation rules are clear. This page turns generic prompting advice into a healthcare operations career-placement system.</div>""", unsafe_allow_html=True)
+    st.markdown("## Guessing vs. Directing")
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown("""<div class="impact-card"><div class="impact-label">Weak prompt</div><div class="impact-text">Help me with healthcare administration.<br><br>This usually creates generic advice because the AI has no role, context, boundary, or expected output.</div></div>""", unsafe_allow_html=True)
+    with col2:
+        st.markdown("""<div class="impact-card"><div class="impact-label">Structured prompt</div><div class="impact-text">Act as a healthcare operations workflow analyst. Identify where patient access, eligibility, prior authorization, and documentation failures could create downstream denial risk, staff rework, patient confusion, and revenue cycle delays. Use simulated no-PHI examples only.</div></div>""", unsafe_allow_html=True)
+    st.markdown("## Healthcare Operations AI Prompting Framework™")
+    st.markdown("""<div class="workflow-strip"><span class="orange-text">R.O.U.T.E.</span> = Role → Objective → Use Case → Trust Boundary → Expected Output</div>""", unsafe_allow_html=True)
+    for index, row in route_framework.iterrows():
+        st.markdown(f"""<div class="route-card"><div class="route-letter">{row['Letter']}</div><div class="route-title">{row['Framework Step']}</div><div class="route-subhead">What it means</div><div class="route-text">{row['Meaning']}</div><div class="example-box"><div class="route-subhead">Example</div><div class="route-text">{row['Example']}</div></div><div class="route-subhead">Career value</div><div class="route-text">{row['Career Value']}</div></div>""", unsafe_allow_html=True)
+    st.markdown("## Supporting Prompt Frameworks")
+    for index, row in supporting_frameworks.iterrows():
+        st.markdown(f"""<div class="framework-card"><div class="framework-number">Framework {index + 1}</div><div class="framework-title">{row['Framework']}</div><div class="framework-subhead">Plain-English meaning</div><div class="framework-text">{row['Plain-English Meaning']}</div><div class="framework-subhead">Structure</div><div class="framework-text">{row['Structure']}</div><div class="framework-subhead">Healthcare career use</div><div class="framework-text">{row['Healthcare Career Use']}</div></div>""", unsafe_allow_html=True)
+    st.markdown("## Copy-Paste R.O.U.T.E. Prompt")
+    route_prompt = """Act as my healthcare operations workflow intelligence assistant.
+
+My goal is to build a simulated no-PHI healthcare operations portfolio project that helps me demonstrate practical thinking for entry-level healthcare administration, patient access, prior authorization, denial prevention, revenue cycle, documentation workflow, health informatics, and patient experience roles.
+
+Role:
+Act as a healthcare operations workflow analyst.
+
+Objective:
+Help me identify where a healthcare workflow may lose control before patients, staff, and revenue feel the downstream impact.
+
+Use Case:
+Focus on [PATIENT ACCESS / ELIGIBILITY / PRIOR AUTHORIZATION / DOCUMENTATION READINESS / DENIAL PREVENTION / REVENUE CYCLE / PATIENT EXPERIENCE].
+
+Trust Boundary:
+Use simulated educational examples only. Do not use PHI, real patient data, payer data, employer data, claims data, or clinical decision-making. Do not invent work experience, job titles, certifications, or professional authority.
+
+Expected Output:
+Create a structured portfolio-ready output with:
+1. Workflow problem
+2. Failure point
+3. Downstream risk
+4. Patient impact
+5. Staff rework impact
+6. Revenue cycle impact
+7. Prevention action
+8. KPI or signal to monitor
+9. Recruiter-facing skill demonstrated
+10. Honest student explanation
+
+End by answering:
+Where did the workflow first lose control?"""
+    st.text_area("Copy-paste prompt", value=route_prompt, height=420)
+    st.markdown("## Recruiter-Facing Takeaway")
+    st.markdown("""<div class="workflow-strip"><span class="orange-text">This framework shows that I am not using AI randomly.</span> I define the role, set the objective, name the healthcare use case, protect privacy, and request a portfolio-ready output that supports patient access, prior authorization, denial prevention, documentation readiness, revenue cycle thinking, and responsible AI use.</div>""", unsafe_allow_html=True)
     footer()
 
 elif page == "Portfolio Project Ideas":
