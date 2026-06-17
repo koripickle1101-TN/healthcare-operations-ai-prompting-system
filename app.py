@@ -203,6 +203,7 @@ elif page == "Responsible Prompting Framework":
     for index, row in route_framework.iterrows():
         st.markdown(f"""<div class="route-card"><div class="route-letter">{row['Letter']}</div><div class="route-title">{row['Framework Step']}</div><div class="route-subhead">What it means</div><div class="route-text">{row['Meaning']}</div><div class="example-box"><div class="route-subhead">Example</div><div class="route-text">{row['Example']}</div></div><div class="route-subhead">Career value</div><div class="route-text">{row['Career Value']}</div></div>""", unsafe_allow_html=True)
     st.markdown("## Supporting Prompt Frameworks")
+    st.markdown("""<div class="section-card">These are supporting frameworks I studied, but <span class="orange-text">R.O.U.T.E.</span> is the healthcare operations version I use for my own portfolio work.</div>""", unsafe_allow_html=True)
     for index, row in supporting_frameworks.iterrows():
         st.markdown(f"""<div class="framework-card"><div class="framework-number">Framework {index + 1}</div><div class="framework-title">{row['Framework']}</div><div class="framework-subhead">Plain-English meaning</div><div class="framework-text">{row['Plain-English Meaning']}</div><div class="framework-subhead">Structure</div><div class="framework-text">{row['Structure']}</div><div class="framework-subhead">Healthcare career use</div><div class="framework-text">{row['Healthcare Career Use']}</div></div>""", unsafe_allow_html=True)
     st.markdown("## Copy-Paste R.O.U.T.E. Prompt")
